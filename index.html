@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nova — 2025 Modern Site</title>
+  <meta name="description" content="A sleek, 2025‑style HTML+CSS one‑pager template." />
+  <style>
+    /*
+      Nova — 2025 Modern Site
+      Pure HTML + CSS (no JS). Self‑contained, responsive, and accessible.
+      Customize: Edit variables in :root to quickly theme the site.
+    */
+
+    /* ----- CSS Reset (modern) ----- */
+    *,*::before,*::after{box-sizing:border-box}
+    html:focus-within{scroll-behavior:smooth}
+    body{margin:0;min-height:100dvh;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+    img,svg,video,canvas{max-width:100%;display:block}
+    input,button,textarea,select{font:inherit}
+    a{text-decoration:none;color:inherit}
+
+    /* ----- Theme Variables ----- */
+    :root{
+      --bg: hsl(240 12% 6%);
+      --bg-soft: hsl(240 12% 8% / .7);
+      --surface: hsl(240 10% 10% / .6);
+      --text: hsl(220 20% 96%);
+      --muted: hsl(220 10% 75%);
+      --accent: hsl(265 85% 62%);
+      --accent2: hsl(200 90% 62%);
+      --accent3: hsl(155 70% 55%);
+      --ring: hsl(265 85% 62% / .35);
+      --card: linear-gradient(180deg, hsl(240 12% 14% / .55), hsl(240 12% 10% / .55));
+      --radius: 18px;
+      --shadow: 0 1px 0 hsl(0 0% 100% / .06) inset, 0 20px 50px hsl(240 60% 3% / .7);
+      --gap: clamp(16px, 3cqi, 28px);
+    }
+
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:hsl(210 30% 98%);
+        --bg-soft:hsl(210 80% 96% / .7);
+        --surface:hsl(210 40% 99% / .65);
+        --text:hsl(222 18% 12%);
+        --muted:hsl(222 12% 40%);
+        --ring:hsl(265 85% 52% / .25);
+        --card: linear-gradient(180deg, hsl(0 0% 100% /.8), hsl(210 50% 98% /.8));
+        --shadow: 0 1px 0 hsl(0 0% 100%), 0 10px 30px hsl(220 40% 70% / .35);
+      }
+    }
+
+    /* ----- Background Texture ----- */
+    body{
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 10% -10%, hsl(265 85% 60% / .25), transparent),
+        radial-gradient(1200px 800px at 110% 10%, hsl(200 90% 60% /.25), transparent),
+        linear-gradient(180deg, hsl(240 12% 8%), var(--bg));
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    .container{width:min(1200px, 92%);margin-inline:auto}
+    .stack{display:grid;gap:var(--gap)}
+
+    /* ----- Frosted Glass Card ----- */
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      border:1px solid hsl(0 0% 100%/.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      isolation:isolate;
+    }
+    .card::before{
+      content:"";position:absolute;inset:-1px;z-index:-1;border-radius:inherit;
+      background: conic-gradient(from 180deg at 50% 50%, var(--accent), var(--accent2), var(--accent3), var(--accent));
+      filter: blur(18px);opacity:.12;
+    }
+
+    /* ----- Header / Nav ----- */
+    header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, var(--bg-soft), transparent);backdrop-filter:blur(8px)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .logo{display:flex;gap:10px;align-items:center;font-weight:800;letter-spacing:.4px}
+    .logo-dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(45deg,var(--accent),var(--accent2))}
+
+    /* Mobile nav (checkbox hack) */
+    #nav-toggle{display:none}
+    .nav-links{display:flex;gap:20px;align-items:center}
+    .nav-links a{padding:8px 12px;border-radius:12px;color:var(--muted)}
+    .nav-links a:hover{color:var(--text);background:hsl(0 0% 100%/.06)}
+    .hamburger{display:none;cursor:pointer;border:1px solid hsl(0 0% 100%/.08);padding:8px 10px;border-radius:12px}
+    .hamburger svg{width:22px;height:22px}
+
+    @media (max-width: 840px){
+      .hamburger{display:block}
+      .nav-links{position:absolute;inset:60px 0 auto 0;display:grid;gap:8px;padding:12px;margin:0 16px;border-radius:16px;background:var(--surface);transform:translateY(-10px);opacity:0;pointer-events:none;transition:.25s}
+      #nav-toggle:checked ~ .nav .nav-links{transform:none;opacity:1;pointer-events:auto}
+    }
+
+    /* ----- Hero ----- */
+    .hero{padding:clamp(56px,10cqi,120px) 0}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:hsl(0 0% 100%/.06);color:var(--muted);border:1px solid hsl(0 0% 100%/.08)}
+    .badge .dot{width:6px;height:6px;border-radius:999px;background:radial-gradient(circle at 30% 30%, var(--accent), transparent 60%) ,var(--accent);box-shadow:0 0 16px var(--accent)}
+
+    .title{font-size:clamp(36px,7cqi,68px);line-height:1.05;margin:14px 0;background:linear-gradient(90deg, var(--text), var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 10s linear infinite}
+    @keyframes shine{0%{background-position:0%}100%{background-position:200%}}
+
+    .subtitle{max-width:60ch;color:var(--muted);font-size:clamp(15px,2.4cqi,18px)}
+
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:14px;border:1px solid hsl(0 0% 100%/.08);background:linear-gradient(180deg,hsl(0 0% 100%/.08),hsl(0 0% 100%/.02));color:var(--text)}
+    .btn:hover{border-color:var(--ring);box-shadow:0 0 0 6px var(--ring)}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent2));border:0}
+
+    /* ----- Showcase Grid ----- */
+    .grid{display:grid;gap:var(--gap)}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    @media (max-width: 980px){.grid-3{grid-template-columns:1fr 1fr}}
+    @media (max-width: 680px){.grid-3,.grid-2{grid-template-columns:1fr}}
+
+    .feature{padding:22px}
+    .feature h3{margin:6px 0 8px;font-size:20px}
+    .feature p{margin:0;color:var(--muted)}
+    .icon{width:28px;height:28px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(120deg,var(--accent) ,var(--accent2));box-shadow:0 6px 20px hsl(265 85% 60% /.35)}
+    .icon svg{width:18px;height:18px;color:white}
+
+    /* ----- Gallery Cards ----- */
+    .tile{aspect-ratio: 16/10;display:grid;place-content:end;overflow:hidden}
+    .tile .label{padding:14px 16px;color:white;background:linear-gradient(180deg, transparent, hsl(0 0% 0% /.65));}
+    .tile .bg{position:absolute;inset:0;background:conic-gradient(from 180deg at 50% 50%, hsl(265 85% 62% /.5), hsl(200 90% 62% /.5), hsl(155 70% 55% /.5), hsl(265 85% 62% /.5));filter:saturate(1.2) brightness(.9);mix-blend:overlay}
+    .tile::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 120% at 80% 0%, transparent 20%, hsl(0 0% 0% /.5));}
+
+    /* ----- Stats Row ----- */
+    .stats{display:grid;grid-template-columns:repeat(4, 1fr);gap:var(--gap)}
+    .stat{padding:22px;text-align:center}
+    .stat b{display:block;font-size:clamp(22px,4cqi,34px)}
+    .stat span{color:var(--muted)}
+    @media (max-width:800px){.stats{grid-template-columns:1fr 1fr}}
+
+    /* ----- Pricing ----- */
+    .pricing{display:grid;grid-template-columns:repeat(3, 1fr);gap:var(--gap)}
+    .plan{padding:24px;display:grid;gap:12px}
+    .plan h4{margin:0;font-size:20px}
+    .price{font-size:34px;font-weight:800;letter-spacing:.2px}
+    .plan ul{margin:0;padding-left:18px;color:var(--muted);display:grid;gap:8px}
+    .plan .btn{justify-content:center}
+    .plan.pop{
+      background:linear-gradient(180deg, hsl(265 85% 62% /.12), hsl(265 85% 62% /.04)), var(--card);
+      border:1px solid hsl(265 85% 62% /.3);
+      box-shadow: 0 0 0 2px hsl(0 0% 100% / .04) inset, 0 30px 60px hsl(265 85% 40% /.25);
+    }
+    @media (max-width:980px){.pricing{grid-template-columns:1fr 1fr}}
+    @media (max-width:680px){.pricing{grid-template-columns:1fr}}
+
+    /* ----- Footer ----- */
+    footer{padding:60px 0;color:var(--muted)}
+    .foot{display:flex;justify-content:space-between;gap:var(--gap);flex-wrap:wrap}
+    .foot small{opacity:.8}
+    .links{display:flex;gap:14px;flex-wrap:wrap}
+
+    /* ----- Utilities ----- */
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;border:1px dashed hsl(0 0% 100%/.18);color:var(--muted)}
+    .section{padding:56px 0}
+    .center{text-align:center}
+    .accent{color:var(--accent2)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <input type="checkbox" id="nav-toggle" aria-label="메뉴 열기/닫기" />
+      <nav class="nav">
+        <a class="logo" href="#home" aria-label="Nova 2025 Home">
+          <span class="logo-dot"></span>
+          Nova <span class="accent">2025</span>
+        </a>
+        <label class="hamburger" for="nav-toggle" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </label>
+        <div class="nav-links">
+          <a href="#showcase">Showcase</a>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home" class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="stack">
+        <span class="badge"><span class="dot"></span> Built with pure HTML + CSS</span>
+        <h1 class="title">미래 감성의 <em>Nova 2025</em> 템플릿</h1>
+        <p class="subtitle">글라스모피즘, 그라디언트 보더, 라디얼 글로우 등 2025 트렌드를 반영한 반응형 원페이지 템플릿입니다. 외부 라이브러리 없이도 고급스러운 인터랙션을 구현했습니다.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#showcase" aria-label="시작하기">시작하기</a>
+          <a class="btn" href="#features" aria-label="기능 보기">기능 보기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Showcase -->
+    <section id="showcase" class="section stack">
+      <div class="stack center">
+        <span class="pill">Showcase</span>
+        <h2 class="title" style="font-size:clamp(28px,5cqi,48px);">시선을 사로잡는 비주얼</h2>
+        <p class="subtitle" style="margin-inline:auto;max-width:70ch">이미지 없이도 표현되는 비주얼 타일. 배경은 동적 그라디언트, 상단은 라벨을 얹어 프로젝트 카드처럼 사용할 수 있습니다.</p>
+      </div>
+      <div class="grid grid-3">
+        <article class="card tile">
+          <div class="bg" aria-hidden="true"></div>
+          <div class="label">AI Agent Dashboard</div>
+        </article>
+        <article class="card tile">
+          <div class="bg" aria-hidden="true"></div>
+          <div class="label">VR K‑pop Experience</div>
+        </article>
+        <article class="card tile">
+          <div class="bg" aria-hidden="true"></div>
+          <div class="label">Data Intelligence</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="section stack">
+      <div class="stack center">
+        <span class="pill">Features</span>
+        <h2 class="title" style="font-size:clamp(28px,5cqi,48px);">디자인·성능·접근성 균형</h2>
+        <p class="subtitle" style="margin-inline:auto;max-width:70ch">현대적인 UI/UX, 접근성 고려, CSS 전용 인터랙션. 변수만 바꿔도 손쉽게 브랜딩이 가능합니다.</p>
+      </div>
+      <div class="grid grid-3">
+        <div class="card feature">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
+          </div>
+          <h3>글라스 카드</h3>
+          <p>블러·광택·그라디언트를 조합한 카드 컴포넌트. 그 자체로 히어로, 목록, 배너 등 다용도.</p>
+        </div>
+        <div class="card feature">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          </div>
+          <h3>모바일 내비</h3>
+          <p>체크박스 해크 기반의 CSS 전용 햄버거 메뉴. JS 없이도 부드럽고 가볍게 작동.</p>
+        </div>
+        <div class="card feature">
+          <div class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          </div>
+          <h3>애니메이티드 텍스트</h3>
+          <p>그라디언트 텍스트에 움직임을 더해 헤드라인 집중도를 강화.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="section">
+      <div class="card" style="padding:24px">
+        <div class="stats">
+          <div class="stat"><b>98</b><span>Pagespeed 모바일</span></div>
+          <div class="stat"><b>~12KB</b><span>CSS + HTML (압축시)</span></div>
+          <div class="stat"><b>0 JS</b><span>순수 CSS 인터랙션</span></div>
+          <div class="stat"><b>AA</b><span>대비·접근성 준수</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="section stack">
+      <div class="stack center">
+        <span class="pill">Pricing</span>
+        <h2 class="title" style="font-size:clamp(28px,5cqi,48px);">필요에 맞게 선택하세요</h2>
+        <p class="subtitle" style="margin-inline:auto;max-width:70ch">실제 서비스용으로 커스터마이즈 하거나, 포트폴리오 템플릿으로 즉시 활용하세요.</p>
+      </div>
+      <div class="pricing">
+        <div class="card plan">
+          <h4>Starter</h4>
+          <div class="price">무료</div>
+          <ul>
+            <li>원페이지 레이아웃</li>
+            <li>반응형 그리드</li>
+            <li>라이트/다크 자동</li>
+          </ul>
+          <a class="btn" href="#contact">다운로드</a>
+        </div>
+        <div class="card plan pop">
+          <h4>Pro</h4>
+          <div class="price">₩29,000</div>
+          <ul>
+            <li>세부 섹션 추가 템플릿</li>
+            <li>커스텀 색/타이포 세팅</li>
+            <li>기본 SEO 메타 포함</li>
+          </ul>
+          <a class="btn btn-primary" href="#contact">시작하기</a>
+        </div>
+        <div class="card plan">
+          <h4>Team</h4>
+          <div class="price">₩79,000</div>
+          <ul>
+            <li>브랜드 키트 프리셋</li>
+            <li>다중 페이지 구조</li>
+            <li>디자인 핸드오프 가이드</li>
+          </ul>
+          <a class="btn" href="#contact">문의하기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact / CTA -->
+    <section id="contact" class="section">
+      <div class="card" style="padding:28px">
+        <div class="stack center">
+          <h2 class="title" style="font-size:clamp(26px,4.5cqi,40px);">프로젝트를 시작해 볼까요?</h2>
+          <p class="subtitle" style="margin-inline:auto;max-width:62ch">이 템플릿을 복제하여 섹션을 추가하고 텍스트만 바꿔도 완성도 높은 랜딩 페이지를 만들 수 있습니다. 색상은 <code>:root</code> 변수만 수정하면 즉시 반영됩니다.</p>
+          <div class="cta" style="justify-content:center">
+            <a class="btn btn-primary" href="#home">지금 사용하기</a>
+            <a class="btn" href="#features">문서 보기</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container foot">
+      <small>© 2025 Nova. All rights reserved.</small>
+      <div class="links">
+        <a href="#">이용약관</a>
+        <a href="#">개인정보처리방침</a>
+        <a href="#">문의</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
